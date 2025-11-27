@@ -1,0 +1,21 @@
+from airflow import DAG
+from airflow.operators.bash import BashOperator
+from datetime import datetime
+from datetime import timedelta
+
+default_args = {
+    'owner': 'NP',
+    'start_date': datetime()#Pasar parametros a tdatetime,
+}
+
+with DAG(
+    dag_id='gasto_operativo',
+    default_args=default_args,
+    schedule_interval='0 12 * * *',  # Diario 12 PM ejectua el DAG
+    catchup=False
+):
+
+    ejecutar_script = BashOperator(
+        task_id='ejecutar_gasto_operativo',
+        bash_command='python "C:\Users\\Documents\PYTHON\Cargar_Gasto.py"', #<-- Podemos manejarklo con Sys y Os
+    )
